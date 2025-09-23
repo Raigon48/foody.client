@@ -13,7 +13,7 @@ export default function MobileNavLinks() {
       >
         User Profile
       </Link>
-      <Separator />
+
       <Button
         onClick={() => logout()}
         className='flex items-center px-3 font-bold hover:bg-gray-500'

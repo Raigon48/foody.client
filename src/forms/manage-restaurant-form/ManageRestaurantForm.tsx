@@ -69,11 +69,11 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
       return;
     }
 
-    const deliveryPriceFormatted = parseInt(
+    const deliveryPriceFormatted = parseFloat(
       (restaurant.deliveryPrice / 100).toFixed(2)
     );
     const menuItemsFormatted = restaurant.menuItems.map((item) => {
-      return { ...item, price: parseInt((item.price / 100).toFixed(2)) };
+      return { ...item, price: parseFloat((item.price / 100).toFixed(2)) };
     });
 
     const formattedRestaurant = {

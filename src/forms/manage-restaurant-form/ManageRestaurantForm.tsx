@@ -12,29 +12,35 @@ import { Button } from "@/components/ui/button";
 import type { Restaurant } from "@/types";
 import { useEffect } from "react";
 
-const formSchema = z.object({
-  restaurantName: z.string("restaurant name is required"),
-  city: z.string("city is required"),
-  country: z.string("country is required"),
-  deliveryPrice: z.coerce.number<number>({
-    error: "deliveryPrice is required",
-  }),
-  estimatedDeliveryTime: z.coerce.number<number>({
-    error: "estimatedDeliveryTime is required",
-  }),
-  cuisines: z.array(z.string()).nonempty("Please select atleast one item"),
-  menuItems: z.array(
-    z.object({
-      name: z.string().min(1, "name is required"),
-      price: z.coerce
-        .number<number>({
-          error: "price is required",
-        })
-        .gt(0, "price should be greater than 0"),
-    })
-  ),
-  imageFile: z.instanceof(File, { error: "image is required" }),
-});
+const formSchema = z
+  .object({
+    restaurantName: z.string("restaurant name is required"),
+    city: z.string("city is required"),
+    country: z.string("country is required"),
+    deliveryPrice: z.coerce.number<number>({
+      error: "deliveryPrice is required",
+    }),
+    estimatedDeliveryTime: z.coerce.number<number>({
+      error: "estimatedDeliveryTime is required",
+    }),
+    cuisines: z.array(z.string()).nonempty("Please select atleast one item"),
+    menuItems: z.array(
+      z.object({
+        name: z.string().min(1, "name is required"),
+        price: z.coerce
+          .number<number>({
+            error: "price is required",
+          })
+          .gt(0, "price should be greater than 0"),
+      })
+    ),
+    imageUrl: z.string().optional(),
+    imageFile: z.instanceof(File, { error: "image is required" }).optional(),
+  })
+  .refine((data) => data.imageUrl || data.imageFile, {
+    error: "Either image url or image file must be provided",
+    path: ["imageFile"],
+  });
 
 type RestaurantFormData = z.infer<typeof formSchema>;
 

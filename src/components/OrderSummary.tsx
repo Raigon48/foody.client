@@ -3,13 +3,19 @@ import type { Restaurant } from "@/types";
 import { CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
+import { Trash } from "lucide-react";
 
 type Props = {
   restaurant: Restaurant;
   cartItems: CartItem[];
+  removeFromCart: (cartItem: CartItem) => void;
 };
 
-export const OrderSummary = ({ restaurant, cartItems }: Props) => {
+export const OrderSummary = ({
+  restaurant,
+  cartItems,
+  removeFromCart,
+}: Props) => {
   const getTotalCost = () => {
     const totalInPence = cartItems.reduce(
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
@@ -31,7 +37,7 @@ export const OrderSummary = ({ restaurant, cartItems }: Props) => {
       <CardContent className='flex flex-col gap-5'>
         {cartItems.map((item) => {
           return (
-            <div className='flex justify-content'>
+            <div className='flex justify-between'>
               <span>
                 <Badge
                   variant={"outline"}
@@ -42,6 +48,12 @@ export const OrderSummary = ({ restaurant, cartItems }: Props) => {
                 {item.name}
               </span>
               <span className='flex items-center gap-1'>
+                <Trash
+                  className='cursor-pointer'
+                  color='red'
+                  size={20}
+                  onClick={() => removeFromCart(item)}
+                />
                 ${((item.price * item.quantity) / 100).toFixed(2)}
               </span>
             </div>

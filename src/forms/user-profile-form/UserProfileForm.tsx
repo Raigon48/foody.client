@@ -26,7 +26,7 @@ const formSchema = z.object({
   country: z.string("country is required").min(1, "country is required"),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 
 type Props = {
   onSave: (userProfileData: UserFormData) => void;
